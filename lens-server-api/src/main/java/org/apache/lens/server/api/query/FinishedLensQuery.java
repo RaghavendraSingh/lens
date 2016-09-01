@@ -239,7 +239,7 @@ public class FinishedLensQuery {
     qctx.setResultSetPath(getResult());
     qctx.setQueryName(getQueryName());
     if (null != driverQuery){
-      qctx.getDriverContext().setSelectedDriverQuery(driverQuery);
+      qctx.setSelectedDriverQuery(driverQuery);
     }
     if (getPriority() != null) {
       qctx.setPriority(Priority.valueOf(getPriority()));
