@@ -87,7 +87,7 @@ public class LensServerDAO {
       + "starttime bigint, " + "endtime bigint," + "result varchar(255)," + "status varchar(255), "
       + "metadata varchar(100000), " + "rows int, " + "filesize bigint, " + "errormessage varchar(10000), "
       + "driverstarttime bigint, " + "driverendtime bigint, " + "drivername varchar(10000), "
-      + "queryname varchar(255), " + "submissiontime bigint" + ")";
+      + "queryname varchar(255), " + "submissiontime bigint, " + "driverquery varchar(10000)" + ")";
     try {
       QueryRunner runner = new QueryRunner(ds);
       runner.update(sql);
@@ -110,15 +110,16 @@ public class LensServerDAO {
       Connection conn = null;
       String sql = "insert into finished_queries (handle, userquery, submitter, priority, "
         + "starttime,endtime,result,status,metadata,rows,filesize,"
-        + "errormessage,driverstarttime,driverendtime, drivername, queryname, submissiontime)"
-        + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        + "errormessage,driverstarttime,driverendtime, drivername, queryname, submissiontime, driverquery)"
+        + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       try {
         conn = getConnection();
         QueryRunner runner = new QueryRunner();
         runner.update(conn, sql, query.getHandle(), query.getUserQuery(), query.getSubmitter(), query.getPriority(),
             query.getStartTime(), query.getEndTime(), query.getResult(), query.getStatus(), query.getMetadata(),
             query.getRows(), query.getFileSize(), query.getErrorMessage(), query.getDriverStartTime(),
-            query.getDriverEndTime(), query.getDriverName(), query.getQueryName(), query.getSubmissionTime());
+            query.getDriverEndTime(), query.getDriverName(), query.getQueryName(), query.getSubmissionTime(),
+            query.getDriverQuery());
         conn.commit();
       } finally {
         DbUtils.closeQuietly(conn);
