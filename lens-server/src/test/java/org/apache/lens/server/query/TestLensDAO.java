@@ -139,6 +139,12 @@ public class TestLensDAO {
     Assert.assertEquals(actual.getHandle(), finishedHandle);
     Assert.assertEquals(Priority.valueOf(actual.getPriority()), Priority.NORMAL);
     Assert.assertEquals(actual.getDriverQuery(), driverQuery);
+    // when driver list contains the selected driver, selected driver should get set correctly in context
+    QueryContext retrievedQueryContext = actual.toQueryContext(new Configuration(), Lists.newArrayList(mockDriver));
+    Assert.assertEquals(retrievedQueryContext.getSelectedDriverQuery(),driverQuery);
+    // if driver list is null, and selectedDriver is already set, it should still be able to pick the driverQuery
+    retrievedQueryContext = actual.toQueryContext(new Configuration(), null);
+    Assert.assertEquals(retrievedQueryContext.getSelectedDriverQuery(),driverQuery);
 
     // Test find finished queries
     LensSessionHandle session = service.openSession("foo@localhost", "bar", new HashMap<String, String>());
